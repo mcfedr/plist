@@ -1,0 +1,9 @@
+{
+    "bootstrap": "vendor/autoload.php",
+    "path": "benchmarks",
+    "time_unit": "seconds",
+    "extensions": [
+        "PhpBench\\Extensions\\XDebug\\XDebugExtension"
+    ],
+    "progress": "travis"
+}

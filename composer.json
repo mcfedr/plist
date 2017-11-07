@@ -1,0 +1,33 @@
+{
+    "name": "mcfedr/plist",
+    "description": "A library for dealing with plists",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fred Cox",
+            "email": "frederick.j.cox@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Mcfedr\\Plist\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Mcfedr\\Plist\\": ["tests/"] }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "ext-xml": "*"
+    },
+    "config": {
+        "platform": {
+            "php": "5.5.9"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "friendsofphp/php-cs-fixer": "^2.2",
+        "rodneyrehm/plist": "^2.0",
+        "phpbench/phpbench": "^0.12.2"
+    }
+}
