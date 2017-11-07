@@ -12,3 +12,4 @@ before_script:
 script:
     - ./vendor/bin/php-cs-fixer fix --dry-run --diff
     - ./vendor/bin/phpunit
+    - ./vendor/bin/phpbench
