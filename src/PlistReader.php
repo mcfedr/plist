@@ -3,6 +3,7 @@
 namespace Mcfedr\Plist;
 
 use Mcfedr\Plist\Exception\InvalidDateStringException;
+use Mcfedr\Plist\Exception\InvalidStructureException;
 use Mcfedr\Plist\Exception\MissingKeyException;
 use Mcfedr\Plist\Exception\UnknownElementException;
 use Mcfedr\Plist\Type\PArray;
@@ -51,7 +52,7 @@ class PlistReader
      * @param string $xml
      * @param bool   $sanitize Clean up invalid characters in the xml
      *
-     * @return PType
+     * @return Plist
      */
     public function read($xml, $sanitize = true)
     {
@@ -88,6 +89,10 @@ class PlistReader
         }
 
         $this->reader->close();
+
+        if (!$last instanceof Plist) {
+            throw new InvalidStructureException("Expected a plist as the root element but got {$last}");
+        }
 
         return $last;
     }
@@ -142,13 +147,15 @@ class PlistReader
                 $parent[] = $node;
             } elseif ($parent instanceof PDictionary) {
                 if (!$this->key) {
-                    throw new MissingKeyException('Missing key for node in dictionary');
+                    throw new MissingKeyException("Missing key for node ({$node}) in dictionary ({$parent})");
                 }
 
                 $parent[$this->key] = $node;
                 $this->key = null;
             } elseif ($parent instanceof Plist) {
                 $parent->setValue($node);
+            } else {
+                throw new InvalidStructureException("Trying to insert a node into a non containing parent ({$parent})");
             }
         }
 
