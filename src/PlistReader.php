@@ -86,8 +86,8 @@ class PlistReader
 
         $this->reader->close();
 
-        if (!$last instanceof Plist) {
-            throw new InvalidStructureException("Expected a plist as the root element but got {$last}");
+        if (!$last instanceof Plist || !$last->getValue()) {
+            throw new InvalidStructureException('Expected a plist as the root element but got '.get_class($last));
         }
 
         return $last;
@@ -143,15 +143,19 @@ class PlistReader
                 $parent[] = $node;
             } elseif ($parent instanceof PDictionary) {
                 if (!$this->key) {
-                    throw new MissingKeyException("Missing key for node ({$node}) in dictionary ({$parent})");
+                    throw new MissingKeyException('Missing key for node ('.get_class($node).') in dictionary');
                 }
 
                 $parent[$this->key] = $node;
                 $this->key = null;
             } elseif ($parent instanceof Plist) {
+                if ($parent->getValue()) {
+                    throw new InvalidStructureException('Trying to insert multiple values into plist');
+                }
+
                 $parent->setValue($node);
             } else {
-                throw new InvalidStructureException("Trying to insert a node into a non containing parent ({$parent})");
+                throw new InvalidStructureException('Trying to insert a node into a non containing parent ('.get_class($parent).')');
             }
         }
 
