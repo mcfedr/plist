@@ -5,7 +5,7 @@ namespace Mcfedr\Plist\Type;
 use Mcfedr\Plist\Exception\InvalidKeyException;
 use Mcfedr\Plist\Exception\InvalidValueException;
 
-class PDictionary implements PType, \ArrayAccess, \Countable, \Iterator
+class PDictionary implements PRoot, \ArrayAccess, \Countable, \Iterator
 {
     /**
      * @var PType[]

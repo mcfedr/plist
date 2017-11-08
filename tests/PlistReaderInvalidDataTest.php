@@ -13,10 +13,26 @@ class PlistReaderInvalidDataTest extends \PHPUnit_Framework_TestCase
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<key>Status</key>
+<dict></dict>
+<dict></dict>
+</plist>
+
+XML;
+
+        $reader = new PlistReader();
+        $reader->read($message);
+    }
+
+    /**
+     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
+     */
+    public function testInvalidRoot()
+    {
+        $message = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
 <string>Idle</string>
-<key>UDID</key>
-<string>abcd</string>
 </plist>
 
 XML;

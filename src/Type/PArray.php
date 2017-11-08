@@ -5,7 +5,7 @@ namespace Mcfedr\Plist\Type;
 use Mcfedr\Plist\Exception\InvalidKeyException;
 use Mcfedr\Plist\Exception\InvalidValueException;
 
-class PArray implements PType, \ArrayAccess, \Countable, \Iterator
+class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
 {
     /**
      * @var PType[]

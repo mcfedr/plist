@@ -238,6 +238,8 @@ XML;
         $newElement = $this->getMockBuilder(PType::class)->getMock();
 
         $writer = new PlistWriter();
-        $writer->write(new Plist($newElement));
+        $writer->write(new Plist(new PDictionary([
+            'element' => $newElement
+        ])));
     }
 }

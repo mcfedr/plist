@@ -5,20 +5,20 @@ namespace Mcfedr\Plist\Type;
 class Plist
 {
     /**
-     * @var PType
+     * @var PRoot
      */
     private $value;
 
     /**
-     * @param PType $value
+     * @param PRoot $value
      */
-    public function __construct(PType $value = null)
+    public function __construct(PRoot $value = null)
     {
         $this->value = $value;
     }
 
     /**
-     * @return PType
+     * @return PRoot
      */
     public function getValue()
     {
@@ -26,9 +26,9 @@ class Plist
     }
 
     /**
-     * @param PType $value
+     * @param PRoot $value
      */
-    public function setValue($value)
+    public function setValue(PRoot $value = null)
     {
         $this->value = $value;
     }

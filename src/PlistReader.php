@@ -14,6 +14,7 @@ use Mcfedr\Plist\Type\PDictionary;
 use Mcfedr\Plist\Type\PInteger;
 use Mcfedr\Plist\Type\Plist;
 use Mcfedr\Plist\Type\PReal;
+use Mcfedr\Plist\Type\PRoot;
 use Mcfedr\Plist\Type\PString;
 use Mcfedr\Plist\Type\PType;
 
@@ -149,6 +150,9 @@ class PlistReader
                 $parent[$this->key] = $node;
                 $this->key = null;
             } elseif ($parent instanceof Plist) {
+                if (!$node instanceof PRoot) {
+                    throw new InvalidStructureException('Trying to insert non root node into plist ('.get_class($node).')');
+                }
                 if ($parent->getValue()) {
                     throw new InvalidStructureException('Trying to insert multiple values into plist');
                 }
