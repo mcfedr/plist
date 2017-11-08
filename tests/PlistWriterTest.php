@@ -3,17 +3,24 @@
 namespace Mcfedr\Plist;
 
 use Mcfedr\Plist\Type\PArray;
+use Mcfedr\Plist\Type\PBoolean;
+use Mcfedr\Plist\Type\PData;
+use Mcfedr\Plist\Type\PDate;
 use Mcfedr\Plist\Type\PDictionary;
 use Mcfedr\Plist\Type\PInteger;
 use Mcfedr\Plist\Type\Plist;
+use Mcfedr\Plist\Type\PReal;
 use Mcfedr\Plist\Type\PString;
+use Mcfedr\Plist\Type\PType;
 
 class PlistWriterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSimple()
+    public function testWriteArray()
     {
-        $plist = new Plist();
-        $plist->setValue(new PString('Hello'));
+        $plist = new Plist(new PArray([
+            new PString('first'),
+            new PString('second'),
+        ]));
 
         $writer = new PlistWriter();
         $message = $writer->write($plist);
@@ -24,7 +31,10 @@ class PlistWriterTest extends \PHPUnit_Framework_TestCase
 PUBLIC "-//Apple//DTD PLIST 1.0//EN"
        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <string>Hello</string>
+    <array>
+        <string>first</string>
+        <string>second</string>
+    </array>
 </plist>
 
 XML;
@@ -32,45 +42,11 @@ XML;
         $this->assertEquals($expected, $message);
     }
 
-    public function testWriteDict()
-    {
-        $plist = new Plist();
-        $dict = new PDictionary();
-        $plist->setValue($dict);
-
-        $dict['Status'] = new PString('Idle');
-        $dict['UDID'] = new PString('abcd');
-
-        $writer = new PlistWriter();
-        $message = $writer->write($plist);
-
-        $expected = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist
-PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>Status</key>
-        <string>Idle</string>
-        <key>UDID</key>
-        <string>abcd</string>
-    </dict>
-</plist>
-
-XML;
-
-        $this->assertEquals($expected, $message);
-    }
-
-    public function testWriteNested()
+    public function testWriteBoolean()
     {
         $plist = new Plist(new PDictionary([
-            'Command' => new PDictionary([
-                'RequestType' => new PString('RemoveProfile'),
-                'Identifier' => new PString('com.kidslox.kidslox'),
-            ]),
-            'CommandUUID' => new PString('abcd'),
+            'true' => new PBoolean(true),
+            'false' => new PBoolean(false),
         ]));
 
         $writer = new PlistWriter();
@@ -83,15 +59,10 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
-        <key>Command</key>
-        <dict>
-            <key>RequestType</key>
-            <string>RemoveProfile</string>
-            <key>Identifier</key>
-            <string>com.kidslox.kidslox</string>
-        </dict>
-        <key>CommandUUID</key>
-        <string>abcd</string>
+        <key>true</key>
+        <true/>
+        <key>false</key>
+        <false/>
     </dict>
 </plist>
 
@@ -100,22 +71,10 @@ XML;
         $this->assertEquals($expected, $message);
     }
 
-    public function testWriteInvalidXml()
+    public function testWriteData()
     {
         $plist = new Plist(new PDictionary([
-            '命令UUID' => new PString('abcd'),
-            'InstalledApplicationList' => new PArray([
-                new PDictionary([
-                    'BundleSize' => new PInteger(237867008),
-                    'DynamicSize' => new PInteger(108572672),
-                    'Identifier' => new PString('com.cocoplay.cocopony'),
-                    'Name' => new PString('Coco Pony'),
-                    'ShortVersion' => new PString('0.8.2'),
-                    'Version' => new PString('0.8.2'),
-                ]),
-            ]),
-            'Статус' => new PString('承認された'),
-            'UDID' => new PString('abcd'),
+            'data' => new PData('hello'),
         ]));
 
         $writer = new PlistWriter();
@@ -128,34 +87,157 @@ PUBLIC "-//Apple//DTD PLIST 1.0//EN"
        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
-        <key>命令UUID</key>
-        <string>abcd</string>
-        <key>InstalledApplicationList</key>
-        <array>
-            <dict>
-                <key>BundleSize</key>
-                <integer>237867008</integer>
-                <key>DynamicSize</key>
-                <integer>108572672</integer>
-                <key>Identifier</key>
-                <string>com.cocoplay.cocopony</string>
-                <key>Name</key>
-                <string>Coco Pony</string>
-                <key>ShortVersion</key>
-                <string>0.8.2</string>
-                <key>Version</key>
-                <string>0.8.2</string>
-            </dict>
-        </array>
-        <key>Статус</key>
-        <string>承認された</string>
-        <key>UDID</key>
-        <string>abcd</string>
+        <key>data</key>
+        <data>aGVsbG8=</data>
     </dict>
 </plist>
 
 XML;
 
         $this->assertEquals($expected, $message);
+    }
+
+    public function testWriteDate()
+    {
+        $plist = new Plist(new PDictionary([
+            'date' => new PDate(\DateTime::createFromFormat('Y-m-d\TH:i:s\Z', '2017-11-08T07:28:23Z')),
+        ]));
+
+        $writer = new PlistWriter();
+        $message = $writer->write($plist);
+
+        $expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>date</key>
+        <date>2017-11-08T07:28:23Z</date>
+    </dict>
+</plist>
+
+XML;
+
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testWriteDictionary()
+    {
+        $plist = new Plist(new PDictionary([
+            'first' => new PString('first'),
+            'second' => new PString('second'),
+        ]));
+
+        $writer = new PlistWriter();
+        $message = $writer->write($plist);
+
+        $expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>first</key>
+        <string>first</string>
+        <key>second</key>
+        <string>second</string>
+    </dict>
+</plist>
+
+XML;
+
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testWriteInteger()
+    {
+        $plist = new Plist(new PDictionary([
+            'number' => new PInteger(1),
+        ]));
+
+        $writer = new PlistWriter();
+        $message = $writer->write($plist);
+
+        $expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>number</key>
+        <integer>1</integer>
+    </dict>
+</plist>
+
+XML;
+
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testWriteReal()
+    {
+        $plist = new Plist(new PDictionary([
+            'number' => new PReal(0.1),
+        ]));
+
+        $writer = new PlistWriter();
+        $message = $writer->write($plist);
+
+        $expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>number</key>
+        <real>0.1</real>
+    </dict>
+</plist>
+
+XML;
+
+        $this->assertEquals($expected, $message);
+    }
+
+    public function testWriteString()
+    {
+        $plist = new Plist(new PDictionary([
+            'string' => new PString('string'),
+        ]));
+
+        $writer = new PlistWriter();
+        $message = $writer->write($plist);
+
+        $expected = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist
+PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+       "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>string</key>
+        <string>string</string>
+    </dict>
+</plist>
+
+XML;
+
+        $this->assertEquals($expected, $message);
+    }
+
+    /**
+     * @expectedException \Mcfedr\Plist\Exception\UnknownTypeException
+     */
+    public function testWriteUnknown()
+    {
+        $newElement = $this->getMockBuilder(PType::class)->getMock();
+
+        $writer = new PlistWriter();
+        $writer->write(new Plist($newElement));
     }
 }

@@ -64,7 +64,7 @@ class PlistWriter
             $this->writer->text(base64_encode($element->getValue()));
             $this->writer->endElement();
         } elseif ($element instanceof PDate) {
-            $this->writer->startElement('data');
+            $this->writer->startElement('date');
             $this->writer->text($element->getValue()->format(PDate::FORMAT));
             $this->writer->endElement();
         } elseif ($element instanceof PDictionary) {
@@ -89,7 +89,7 @@ class PlistWriter
             $this->writer->text($element->getValue());
             $this->writer->endElement();
         } else {
-            throw new UnknownTypeException("Cannot write unknown element ($element)");
+            throw new UnknownTypeException('Cannot write unknown element ('.get_class($element).')');
         }
     }
 }
