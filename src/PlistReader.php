@@ -215,7 +215,6 @@ class PlistReader
      * @see https://en.wikipedia.org/wiki/Valid_characters_in_XML
      *
      * Should correctly support multibyte strings, in theory
-     *
      * @see https://stackoverflow.com/a/22852943/859027
      *
      * Not using https://stackoverflow.com/a/3466049/859027
