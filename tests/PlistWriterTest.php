@@ -239,7 +239,7 @@ XML;
 
         $writer = new PlistWriter();
         $writer->write(new Plist(new PDictionary([
-            'element' => $newElement
+            'element' => $newElement,
         ])));
     }
 }
