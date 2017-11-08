@@ -62,11 +62,7 @@ class PlistReader
 
         $this->reader = new \XMLReader();
 
-        $options = LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD;
-        if (defined('LIBXML_BIGLINES')) { //From php 7.0
-            $options |= LIBXML_BIGLINES;
-        }
-        $this->reader->XML($xml, 'UTF-8', $options);
+        $this->reader->XML($xml, 'UTF-8', LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
         $this->reader->setParserProperty(\XMLReader::SUBST_ENTITIES, true);
 
         $this->state = self::STATE_START;
