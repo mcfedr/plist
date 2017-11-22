@@ -51,7 +51,7 @@ class PlistReader
     private $text;
 
     /**
-     * Track status of xml error handling
+     * Track status of xml error handling.
      *
      * @var bool
      */
@@ -64,8 +64,10 @@ class PlistReader
 
     /**
      * @param string $xml
-     * @param bool $sanitize Clean up invalid characters in the xml
+     * @param bool   $sanitize Clean up invalid characters in the xml
+     *
      * @return Plist
+     *
      * @throws InvalidStructureException
      */
     public function read($xml, $sanitize = true)
@@ -273,12 +275,14 @@ class PlistReader
         return preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $input);
     }
 
-    private function startXmlErrorHandling() {
+    private function startXmlErrorHandling()
+    {
         $this->lastUseInternalErrors = libxml_use_internal_errors(true);
-        $this->lastDisableEntityLoader =  libxml_disable_entity_loader(true);
+        $this->lastDisableEntityLoader = libxml_disable_entity_loader(true);
     }
 
-    private function throwXmlErrors() {
+    private function throwXmlErrors()
+    {
         $errors = libxml_get_errors();
         if (count($errors)) {
             libxml_clear_errors();
@@ -288,7 +292,8 @@ class PlistReader
         }
     }
 
-    private function stopXmlErrorHandling() {
+    private function stopXmlErrorHandling()
+    {
         libxml_use_internal_errors($this->lastUseInternalErrors);
         libxml_disable_entity_loader($this->lastDisableEntityLoader);
     }

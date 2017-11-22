@@ -1,10 +1,6 @@
 <?php
 
-
 namespace Mcfedr\Plist\Exception;
-
-
-use Throwable;
 
 class XmlErrorException extends PlistException
 {
@@ -22,15 +18,17 @@ class XmlErrorException extends PlistException
         parent::__construct(implode('; ', $messages));
     }
 
-    private function level($level) {
+    private function level($level)
+    {
         switch ($level) {
             case LIBXML_ERR_WARNING:
-                return "Warning";
+                return 'Warning';
             case LIBXML_ERR_ERROR:
-                return "Error";
+                return 'Error';
             case LIBXML_ERR_FATAL:
-                return "Fatal";
+                return 'Fatal';
         }
+
         return $level;
     }
 }
