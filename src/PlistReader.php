@@ -6,6 +6,7 @@ use Mcfedr\Plist\Exception\InvalidDateStringException;
 use Mcfedr\Plist\Exception\InvalidStructureException;
 use Mcfedr\Plist\Exception\MissingKeyException;
 use Mcfedr\Plist\Exception\UnknownElementException;
+use Mcfedr\Plist\Exception\XmlErrorException;
 use Mcfedr\Plist\Type\PArray;
 use Mcfedr\Plist\Type\PBoolean;
 use Mcfedr\Plist\Type\PData;
@@ -50,10 +51,22 @@ class PlistReader
     private $text;
 
     /**
-     * @param string $xml
-     * @param bool   $sanitize Clean up invalid characters in the xml
+     * Track status of xml error handling
      *
+     * @var bool
+     */
+    private $lastUseInternalErrors;
+
+    /**
+     * @var bool
+     */
+    private $lastDisableEntityLoader;
+
+    /**
+     * @param string $xml
+     * @param bool $sanitize Clean up invalid characters in the xml
      * @return Plist
+     * @throws InvalidStructureException
      */
     public function read($xml, $sanitize = true)
     {
@@ -61,10 +74,21 @@ class PlistReader
             $xml = $this->sanitizeForXml($xml);
         }
 
-        $this->reader = new \XMLReader();
+        $this->startXmlErrorHandling();
 
-        $this->reader->XML($xml, 'UTF-8', LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_PARSEHUGE | LIBXML_HTML_NODEFDTD);
-        $this->reader->setParserProperty(\XMLReader::SUBST_ENTITIES, true);
+        $this->reader = new \XMLReader();
+        if (!$this->reader->XML($xml, 'UTF-8', LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_HTML_NODEFDTD)) {
+            $this->throwXmlErrors();
+        }
+        if (!$this->reader->setParserProperty(\XMLReader::SUBST_ENTITIES, true)) {
+            $this->throwXmlErrors();
+        }
+        if (!$this->reader->setParserProperty(\XMLReader::VALIDATE, false)) {
+            $this->throwXmlErrors();
+        }
+        if (!$this->reader->setParserProperty(\XMLReader::LOADDTD, false)) {
+            $this->throwXmlErrors();
+        }
 
         $this->state = self::STATE_START;
         $this->nodes = [];
@@ -85,7 +109,10 @@ class PlistReader
             }
         }
 
+        $this->throwXmlErrors();
         $this->reader->close();
+
+        $this->stopXmlErrorHandling();
 
         if (!$last instanceof Plist || !$last->getValue()) {
             throw new InvalidStructureException('Expected a plist as the root element but got '.get_class($last));
@@ -133,6 +160,7 @@ class PlistReader
             $this->text = '';
             $this->state = self::STATE_NODE;
         } else {
+            $this->stopXmlErrorHandling();
             throw new UnknownElementException("Trying to parse unknown element ($elementName)");
         }
 
@@ -144,6 +172,7 @@ class PlistReader
                 $parent[] = $node;
             } elseif ($parent instanceof PDictionary) {
                 if (!$this->key) {
+                    $this->stopXmlErrorHandling();
                     throw new MissingKeyException('Missing key for node ('.get_class($node).') in dictionary');
                 }
 
@@ -151,14 +180,17 @@ class PlistReader
                 $this->key = null;
             } elseif ($parent instanceof Plist) {
                 if (!$node instanceof PRoot) {
+                    $this->stopXmlErrorHandling();
                     throw new InvalidStructureException('Trying to insert non root node into plist ('.get_class($node).')');
                 }
                 if ($parent->getValue()) {
+                    $this->stopXmlErrorHandling();
                     throw new InvalidStructureException('Trying to insert multiple values into plist');
                 }
 
                 $parent->setValue($node);
             } else {
+                $this->stopXmlErrorHandling();
                 throw new InvalidStructureException('Trying to insert a node into a non containing parent ('.get_class($parent).')');
             }
         }
@@ -201,6 +233,7 @@ class PlistReader
                 $node->setValue(base64_decode($this->text));
             } elseif ($node instanceof PDate) {
                 if (($date = \DateTime::createFromFormat(PDate::FORMAT, $this->text)) === false) {
+                    $this->stopXmlErrorHandling();
                     throw new InvalidDateStringException("Invalid date string ({$this->text})");
                 }
                 $node->setValue($date);
@@ -238,5 +271,25 @@ class PlistReader
 
         // Remove invalid xml characters
         return preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $input);
+    }
+
+    private function startXmlErrorHandling() {
+        $this->lastUseInternalErrors = libxml_use_internal_errors(true);
+        $this->lastDisableEntityLoader =  libxml_disable_entity_loader(true);
+    }
+
+    private function throwXmlErrors() {
+        $errors = libxml_get_errors();
+        if (count($errors)) {
+            libxml_clear_errors();
+            $this->stopXmlErrorHandling();
+
+            throw new XmlErrorException($errors);
+        }
+    }
+
+    private function stopXmlErrorHandling() {
+        libxml_use_internal_errors($this->lastUseInternalErrors);
+        libxml_disable_entity_loader($this->lastDisableEntityLoader);
     }
 }
