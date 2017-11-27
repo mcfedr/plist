@@ -23,6 +23,8 @@ class PlistReaderTest extends \PHPUnit_Framework_TestCase
 <array>
 	<string>first</string>
 	<string>second</string>
+	<false/>
+	<integer>0</integer>
 </array>
 </plist>
 
@@ -33,7 +35,7 @@ XML;
 
         $arr = $plist->getValue();
         $this->assertInstanceOf(PArray::class, $arr);
-        $this->assertCount(2, $arr);
+        $this->assertCount(4, $arr);
 
         $first = $arr[0];
         $this->assertInstanceOf(PString::class, $first);
@@ -42,6 +44,14 @@ XML;
         $second = $arr[1];
         $this->assertInstanceOf(PString::class, $second);
         $this->assertEquals('second', $second->getValue());
+
+        $third = $arr[2];
+        $this->assertInstanceOf(PBoolean::class, $third);
+        $this->assertEquals(false, $third->getValue());
+
+        $forth = $arr[3];
+        $this->assertInstanceOf(PInteger::class, $forth);
+        $this->assertEquals(0, $forth->getValue());
     }
 
     public function testReadBoolean()
