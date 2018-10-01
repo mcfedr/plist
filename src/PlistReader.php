@@ -79,7 +79,7 @@ class PlistReader
         $this->startXmlErrorHandling();
 
         $this->reader = new \XMLReader();
-        if (!$this->reader->XML($xml, 'UTF-8', LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_HTML_NODEFDTD)) {
+        if (!$this->reader->XML($xml, 'UTF-8', LIBXML_NONET | LIBXML_COMPACT | LIBXML_HTML_NOIMPLIED | LIBXML_NOENT | LIBXML_HTML_NODEFDTD | LIBXML_NOCDATA)) {
             $this->throwXmlErrors();
         }
         if (!$this->reader->setParserProperty(\XMLReader::SUBST_ENTITIES, true)) {

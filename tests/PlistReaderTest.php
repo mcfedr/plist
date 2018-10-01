@@ -238,4 +238,27 @@ XML;
         $this->assertInstanceOf(PString::class, $string);
         $this->assertEquals('hello', $string->getValue());
     }
+
+    public function testReadStringCdata()
+    {
+        $message = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>string</key>
+	<string><![CDATA[hello]]></string>
+</dict>
+</plist>
+
+XML;
+
+        $reader = new PlistReader();
+        $plist = $reader->read($message);
+
+        $dict = $plist->getValue();
+        $string = $dict['string'];
+        $this->assertInstanceOf(PString::class, $string);
+        $this->assertEquals('hello', $string->getValue());
+    }
 }
