@@ -33,22 +33,27 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PArray $arr */
         $arr = $plist->getValue();
         $this->assertInstanceOf(PArray::class, $arr);
         $this->assertCount(4, $arr);
 
+        /** @var PString $first */
         $first = $arr[0];
         $this->assertInstanceOf(PString::class, $first);
         $this->assertEquals('first', $first->getValue());
 
+        /** @var PString $second */
         $second = $arr[1];
         $this->assertInstanceOf(PString::class, $second);
         $this->assertEquals('second', $second->getValue());
 
+        /** @var PString $third */
         $third = $arr[2];
         $this->assertInstanceOf(PBoolean::class, $third);
         $this->assertEquals(false, $third->getValue());
 
+        /** @var PInteger $forth */
         $forth = $arr[3];
         $this->assertInstanceOf(PInteger::class, $forth);
         $this->assertEquals(0, $forth->getValue());
@@ -73,11 +78,15 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PBoolean $bool */
         $bool = $dict['bool'];
         $this->assertInstanceOf(PBoolean::class, $bool);
         $this->assertTrue($bool->getValue());
 
+        /** @var PBoolean $another */
         $another = $dict['another'];
         $this->assertInstanceOf(PBoolean::class, $another);
         $this->assertFalse($another->getValue());
@@ -100,7 +109,10 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PData $data */
         $data = $dict['data'];
         $this->assertInstanceOf(PData::class, $data);
         $this->assertEquals('hello', $data->getValue());
@@ -123,11 +135,13 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
         $this->assertInstanceOf(PDictionary::class, $dict);
         $this->assertCount(1, $dict);
         $this->assertArrayHasKey('date', $dict);
 
+        /** @var PDate $date */
         $date = $dict['date'];
         $this->assertInstanceOf(PDate::class, $date);
         $this->assertEquals(\DateTime::createFromFormat('Y-m-d\TH:i:s\Z', '2017-11-08T07:28:23Z'), $date->getValue());
@@ -155,16 +169,19 @@ XML;
 
         $this->assertInstanceOf(Plist::class, $plist);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
         $this->assertInstanceOf(PDictionary::class, $dict);
         $this->assertCount(2, $dict);
         $this->assertArrayHasKey('first', $dict);
         $this->assertArrayHasKey('second', $dict);
 
+        /** @var PString $first */
         $first = $dict['first'];
         $this->assertInstanceOf(PString::class, $first);
         $this->assertEquals('first', $first->getValue());
 
+        /** @var PString $second */
         $second = $dict['second'];
         $this->assertInstanceOf(PString::class, $second);
         $this->assertEquals('second', $second->getValue());
@@ -187,7 +204,10 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PInteger $number */
         $number = $dict['number'];
         $this->assertInstanceOf(PInteger::class, $number);
         $this->assertEquals(1, $number->getValue());
@@ -210,7 +230,10 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PReal $number */
         $number = $dict['number'];
         $this->assertInstanceOf(PReal::class, $number);
         $this->assertEquals(0.1, $number->getValue());
@@ -233,7 +256,10 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PString $string */
         $string = $dict['string'];
         $this->assertInstanceOf(PString::class, $string);
         $this->assertEquals('hello', $string->getValue());
@@ -256,7 +282,10 @@ XML;
         $reader = new PlistReader();
         $plist = $reader->read($message);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
+
+        /** @var PString $string */
         $string = $dict['string'];
         $this->assertInstanceOf(PString::class, $string);
         $this->assertEquals('hello', $string->getValue());

@@ -31,16 +31,19 @@ XML;
 
         $this->assertInstanceOf(Plist::class, $plist);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
         $this->assertInstanceOf(PDictionary::class, $dict);
         $this->assertCount(2, $dict);
         $this->assertArrayHasKey('Status', $dict);
         $this->assertArrayHasKey('UDID', $dict);
 
+        /** @var PString $status */
         $status = $dict['Status'];
         $this->assertInstanceOf(PString::class, $status);
         $this->assertEquals('Idle', $status->getValue());
 
+        /** @var PString $udid */
         $udid = $dict['UDID'];
         $this->assertInstanceOf(PString::class, $udid);
         $this->assertEquals('abcd', $udid->getValue());
@@ -72,18 +75,21 @@ XML;
 
         $this->assertInstanceOf(Plist::class, $plist);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
         $this->assertInstanceOf(PDictionary::class, $dict);
         $this->assertCount(2, $dict);
         $this->assertArrayHasKey('Command', $dict);
         $this->assertArrayHasKey('CommandUUID', $dict);
 
+        /** @var PDictionary $command */
         $command = $dict['Command'];
         $this->assertInstanceOf(PDictionary::class, $command);
         $this->assertCount(2, $command);
         $this->assertArrayHasKey('RequestType', $command);
         $this->assertArrayHasKey('Identifier', $command);
 
+        /** @var PString $commandUuid */
         $commandUuid = $dict['CommandUUID'];
         $this->assertInstanceOf(PString::class, $commandUuid);
         $this->assertEquals('abcd', $commandUuid->getValue());
@@ -128,6 +134,7 @@ XML;
 
         $this->assertInstanceOf(Plist::class, $plist);
 
+        /** @var PDictionary $dict */
         $dict = $plist->getValue();
         $this->assertInstanceOf(PDictionary::class, $dict);
         $this->assertCount(4, $dict);
@@ -136,10 +143,12 @@ XML;
         $this->assertArrayHasKey('Статус', $dict);
         $this->assertArrayHasKey('UDID', $dict);
 
+        /** @var PArray $list */
         $list = $dict['InstalledApplicationList'];
         $this->assertInstanceOf(PArray::class, $list);
         $this->assertCount(1, $list);
 
+        /** @var PDictionary $app */
         $app = $list[0];
         $this->assertInstanceOf(PDictionary::class, $app);
         $this->assertCount(6, $app);
@@ -153,14 +162,17 @@ XML;
         $size = $app['BundleSize'];
         $this->assertInstanceOf(PInteger::class, $size);
 
+        /** @var PString $udid */
         $udid = $dict['UDID'];
         $this->assertInstanceOf(PString::class, $udid);
         $this->assertEquals('abcd', $udid->getValue());
 
+        /** @var PString $status */
         $status = $dict['Статус'];
         $this->assertInstanceOf(PString::class, $status);
         $this->assertEquals('承認された', $status->getValue());
 
+        /** @var PString $commandUuid */
         $commandUuid = $dict['命令UUID'];
         $this->assertInstanceOf(PString::class, $commandUuid);
         $this->assertEquals('abcd', $commandUuid->getValue());

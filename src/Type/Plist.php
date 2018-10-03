@@ -5,7 +5,7 @@ namespace Mcfedr\Plist\Type;
 class Plist
 {
     /**
-     * @var PRoot
+     * @var PRoot|null
      */
     private $value;
 
@@ -18,7 +18,7 @@ class Plist
     }
 
     /**
-     * @return PRoot
+     * @return PRoot|null
      */
     public function getValue()
     {

@@ -47,7 +47,7 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
     }
 
     /**
-     * @param int $offset
+     * @param int|null $offset
      * @param PType $value
      */
     public function offsetSet($offset, $value)

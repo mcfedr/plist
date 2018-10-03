@@ -7,7 +7,7 @@ use Mcfedr\Plist\Exception\InvalidValueException;
 class PData implements PType
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $value;
 
@@ -22,7 +22,7 @@ class PData implements PType
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getValue()
     {
@@ -30,7 +30,7 @@ class PData implements PType
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      */
     public function setValue($value)
     {

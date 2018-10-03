@@ -5,7 +5,7 @@ namespace Mcfedr\Plist\Exception;
 class XmlErrorException extends PlistException
 {
     /**
-     * @param \libXMLError[] $errors
+     * @param \LibXMLError[] $errors
      */
     public function __construct(array $errors)
     {
