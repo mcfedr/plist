@@ -18,7 +18,9 @@
     "require": {
         "php": ">=5.5.9",
         "ext-xml": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-xmlreader": "*",
+        "ext-libxml": "*"
     },
     "config": {
         "platform": {
