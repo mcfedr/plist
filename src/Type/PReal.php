@@ -7,7 +7,7 @@ use Mcfedr\Plist\Exception\InvalidValueException;
 class PReal implements PType
 {
     /**
-     * @var float
+     * @var float|null
      */
     private $value;
 
@@ -22,7 +22,7 @@ class PReal implements PType
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getValue()
     {
@@ -30,7 +30,7 @@ class PReal implements PType
     }
 
     /**
-     * @param float $value
+     * @param float|null $value
      */
     public function setValue($value)
     {

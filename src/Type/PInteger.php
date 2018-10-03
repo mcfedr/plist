@@ -7,7 +7,7 @@ use Mcfedr\Plist\Exception\InvalidValueException;
 class PInteger implements PType
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $value;
 
@@ -22,7 +22,7 @@ class PInteger implements PType
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getValue()
     {
@@ -30,7 +30,7 @@ class PInteger implements PType
     }
 
     /**
-     * @param int $value
+     * @param int|null $value
      */
     public function setValue($value)
     {

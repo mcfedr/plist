@@ -36,17 +36,17 @@ class PlistReader
     private $state;
 
     /**
-     * @var PType[]
+     * @var PType[]|Plist[]
      */
     private $nodes;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $key;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $text;
 

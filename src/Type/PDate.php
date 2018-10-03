@@ -7,7 +7,7 @@ class PDate implements PType
     const FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     private $value;
 
@@ -20,7 +20,7 @@ class PDate implements PType
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getValue()
     {
@@ -30,7 +30,7 @@ class PDate implements PType
     /**
      * @param \DateTime $value
      */
-    public function setValue(\DateTime $value)
+    public function setValue(\DateTime $value = null)
     {
         $this->value = $value;
     }

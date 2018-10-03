@@ -7,7 +7,7 @@ use Mcfedr\Plist\Exception\InvalidValueException;
 class PBoolean implements PType
 {
     /**
-     * @var bool
+     * @var bool|null
      */
     private $value;
 
@@ -22,7 +22,7 @@ class PBoolean implements PType
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
     public function getValue()
     {
@@ -30,7 +30,7 @@ class PBoolean implements PType
     }
 
     /**
-     * @param bool $value
+     * @param bool|null $value
      */
     public function setValue($value)
     {
