@@ -28,16 +28,28 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         }
     }
 
+    /**
+     * @param int $offset
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return isset($this->elements[$offset]);
     }
 
+    /**
+     * @param int $offset
+     * @return PType
+     */
     public function offsetGet($offset)
     {
         return $this->elements[$offset];
     }
 
+    /**
+     * @param int $offset
+     * @param PType $value
+     */
     public function offsetSet($offset, $value)
     {
         if (!$value instanceof PType) {
@@ -56,6 +68,9 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         $this->elements[$offset] = $value;
     }
 
+    /**
+     * @param int $offset
+     */
     public function offsetUnset($offset)
     {
         unset($this->elements[$offset]);
@@ -66,6 +81,9 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         return count($this->elements);
     }
 
+    /**
+     * @return PType
+     */
     public function current()
     {
         return current($this->elements);
@@ -76,6 +94,9 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         next($this->elements);
     }
 
+    /**
+     * @return int
+     */
     public function key()
     {
         return key($this->elements);
