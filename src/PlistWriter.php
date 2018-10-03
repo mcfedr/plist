@@ -2,6 +2,7 @@
 
 namespace Mcfedr\Plist;
 
+use Mcfedr\Plist\Exception\InvalidStructureException;
 use Mcfedr\Plist\Exception\UnknownTypeException;
 use Mcfedr\Plist\Type\PArray;
 use Mcfedr\Plist\Type\PBoolean;
@@ -37,6 +38,10 @@ class PlistWriter
         $this->writer->startAttribute('version');
         $this->writer->text('1.0');
         $this->writer->endAttribute();
+
+        if (!$plist->getValue()) {
+            throw new InvalidStructureException('Expected a value as the root element but got null');
+        }
 
         $this->writePType($plist->getValue());
 

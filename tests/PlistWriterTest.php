@@ -235,11 +235,21 @@ XML;
      */
     public function testWriteUnknown()
     {
+        /** @var PType|\PHPUnit_Framework_MockObject_MockObject $newElement */
         $newElement = $this->getMockBuilder(PType::class)->getMock();
 
         $writer = new PlistWriter();
         $writer->write(new Plist(new PDictionary([
             'element' => $newElement,
         ])));
+    }
+
+    /**
+     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
+     */
+    public function testWriteEmpty()
+    {
+        $writer = new PlistWriter();
+        $writer->write(new Plist());
     }
 }
