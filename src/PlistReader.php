@@ -278,7 +278,9 @@ class PlistReader
     private function startXmlErrorHandling()
     {
         $this->lastUseInternalErrors = libxml_use_internal_errors(true);
-        $this->lastDisableEntityLoader = libxml_disable_entity_loader(true);
+        if (\LIBXML_VERSION < 20900) {
+            $this->lastDisableEntityLoader = libxml_disable_entity_loader(true);
+        }
     }
 
     private function throwXmlErrors()
@@ -295,6 +297,8 @@ class PlistReader
     private function stopXmlErrorHandling()
     {
         libxml_use_internal_errors($this->lastUseInternalErrors);
-        libxml_disable_entity_loader($this->lastDisableEntityLoader);
+        if (\LIBXML_VERSION < 20900) {
+            libxml_disable_entity_loader($this->lastDisableEntityLoader);
+        }
     }
 }
