@@ -11,8 +11,9 @@ use Mcfedr\Plist\Type\PInteger;
 use Mcfedr\Plist\Type\Plist;
 use Mcfedr\Plist\Type\PReal;
 use Mcfedr\Plist\Type\PString;
+use PHPUnit\Framework\TestCase;
 
-class PlistReaderTest extends \PHPUnit_Framework_TestCase
+class PlistReaderTest extends TestCase
 {
     public function testReadArray()
     {

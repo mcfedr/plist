@@ -2,23 +2,29 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PBooleanTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PBooleanTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PBoolean();
     }
 
     public function testConstructorValue()
     {
+        $this->expectNotToPerformAssertions();
+
         new PBoolean(true);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
+
         new PBoolean(1);
     }
 }

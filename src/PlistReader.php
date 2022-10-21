@@ -21,9 +21,9 @@ use Mcfedr\Plist\Type\PType;
 
 class PlistReader
 {
-    const STATE_START = 0;
-    const STATE_KEY = 1;
-    const STATE_NODE = 2;
+    public const STATE_START = 0;
+    public const STATE_KEY = 1;
+    public const STATE_NODE = 2;
 
     /**
      * @var \XMLReader
@@ -126,38 +126,38 @@ class PlistReader
     private function readElement()
     {
         $elementName = $this->reader->name;
-        if ($elementName == 'plist') {
+        if ('plist' == $elementName) {
             $this->nodes[] = new Plist();
-        } elseif ($elementName == 'dict') {
+        } elseif ('dict' == $elementName) {
             $this->nodes[] = new PDictionary();
-        } elseif ($elementName == 'key') {
+        } elseif ('key' == $elementName) {
             $this->text = '';
             $this->state = self::STATE_KEY;
 
             return;
-        } elseif ($elementName == 'array') {
+        } elseif ('array' == $elementName) {
             $this->nodes[] = new PArray();
-        } elseif ($elementName == 'string') {
+        } elseif ('string' == $elementName) {
             $this->nodes[] = new PString();
             $this->text = '';
             $this->state = self::STATE_NODE;
-        } elseif ($elementName == 'true') {
+        } elseif ('true' == $elementName) {
             $this->nodes[] = new PBoolean(true);
-        } elseif ($elementName == 'false') {
+        } elseif ('false' == $elementName) {
             $this->nodes[] = new PBoolean(false);
-        } elseif ($elementName == 'real') {
+        } elseif ('real' == $elementName) {
             $this->nodes[] = new PReal();
             $this->text = '';
             $this->state = self::STATE_NODE;
-        } elseif ($elementName == 'integer') {
+        } elseif ('integer' == $elementName) {
             $this->nodes[] = new PInteger();
             $this->text = '';
             $this->state = self::STATE_NODE;
-        } elseif ($elementName == 'data') {
+        } elseif ('data' == $elementName) {
             $this->nodes[] = new PData();
             $this->text = '';
             $this->state = self::STATE_NODE;
-        } elseif ($elementName == 'date') {
+        } elseif ('date' == $elementName) {
             $this->nodes[] = new PDate();
             $this->text = '';
             $this->state = self::STATE_NODE;
@@ -206,14 +206,14 @@ class PlistReader
 
     private function readText()
     {
-        if ($this->state === self::STATE_KEY || $this->state === self::STATE_NODE) {
+        if (self::STATE_KEY === $this->state || self::STATE_NODE === $this->state) {
             $this->text .= $this->reader->value;
         }
     }
 
     private function readEndElement()
     {
-        if ($this->state === self::STATE_KEY) {
+        if (self::STATE_KEY === $this->state) {
             $this->key = $this->text;
 
             $this->state = self::STATE_START;
@@ -224,7 +224,7 @@ class PlistReader
 
         $node = array_pop($this->nodes);
 
-        if ($this->state == self::STATE_NODE) {
+        if (self::STATE_NODE == $this->state) {
             if ($node instanceof PString) {
                 $node->setValue($this->text);
             } elseif ($node instanceof PReal) {

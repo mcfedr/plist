@@ -4,7 +4,7 @@ namespace Mcfedr\Plist\Type;
 
 class PDate implements PType
 {
-    const FORMAT = 'Y-m-d\TH:i:s\Z';
+    public const FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @var \DateTime
@@ -27,9 +27,6 @@ class PDate implements PType
         return $this->value;
     }
 
-    /**
-     * @param \DateTime $value
-     */
     public function setValue(\DateTime $value)
     {
         $this->value = $value;

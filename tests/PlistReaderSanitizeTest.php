@@ -2,7 +2,9 @@
 
 namespace Mcfedr\Plist;
 
-class PlistReaderSanitizeTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PlistReaderSanitizeTest extends TestCase
 {
     public function testSanitizeExample()
     {

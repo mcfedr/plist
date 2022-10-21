@@ -2,23 +2,28 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PDataTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PDataTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PData();
     }
 
     public function testConstructorValue()
     {
+        $this->expectNotToPerformAssertions();
+
         new PData('string');
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
         new PData(1);
     }
 }

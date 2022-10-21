@@ -7,8 +7,9 @@ use Mcfedr\Plist\Type\PDictionary;
 use Mcfedr\Plist\Type\PInteger;
 use Mcfedr\Plist\Type\Plist;
 use Mcfedr\Plist\Type\PString;
+use PHPUnit\Framework\TestCase;
 
-class PlistReaderMessagesTest extends \PHPUnit_Framework_TestCase
+class PlistReaderMessagesTest extends TestCase
 {
     public function testRead()
     {
@@ -183,7 +184,7 @@ XML;
     {
         $files = scandir(__DIR__.'/fixtures');
         $files = array_filter($files, function ($file) {
-            return $file !== '.' && $file !== '..';
+            return '.' !== $file && '..' !== $file;
         });
 
         return array_map(function ($file) {

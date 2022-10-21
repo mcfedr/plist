@@ -2,45 +2,48 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PDictionaryTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidKeyException;
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PDictionaryTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PDictionary();
     }
 
     public function testConstructorValues()
     {
+        $this->expectNotToPerformAssertions();
+
         new PDictionary([
             'key' => new PString(),
         ]);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValues()
     {
+        $this->expectException(InvalidValueException::class);
         new PDictionary([
             'key' => 'string',
         ]);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidKeyException
-     */
     public function testConstructorInvalidKey()
     {
+        $this->expectException(InvalidKeyException::class);
+
         new PDictionary([
             new PString(),
         ]);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidKeyException
-     */
     public function testPush()
     {
+        $this->expectException(InvalidKeyException::class);
         $a = new PDictionary();
         $s = new PString();
 
@@ -72,26 +75,23 @@ class PDictionaryTest extends \PHPUnit_Framework_TestCase
         ]);
 
         foreach ($a as $key => $value) {
-            $this->assertInternalType('string', $key);
+            $this->assertIsString($key);
             $this->assertInstanceOf(PString::class, $value);
         }
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testInsertInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
         $a = new PDictionary();
 
         $a['key'] = 'string';
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidKeyException
-     */
     public function testInsertInvalidKey()
     {
+        $this->expectException(InvalidKeyException::class);
+
         $a = new PDictionary();
 
         $a[0] = new PString();

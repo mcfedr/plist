@@ -2,23 +2,29 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PStringTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PStringTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PString();
     }
 
     public function testConstructorValue()
     {
+        $this->expectNotToPerformAssertions();
+
         new PString('string');
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
+
         new PString(1);
     }
 }

@@ -61,11 +61,11 @@ class PlistWriter
             }
         } elseif ($element instanceof PData) {
             $this->writer->startElement('data');
-            $this->writer->text(base64_encode($element->getValue()));
+            $this->writer->text(base64_encode((string) $element->getValue()));
             $this->writer->endElement();
         } elseif ($element instanceof PDate) {
             $this->writer->startElement('date');
-            $this->writer->text($element->getValue()->format(PDate::FORMAT));
+            $this->writer->text((string) $element->getValue()->format(PDate::FORMAT));
             $this->writer->endElement();
         } elseif ($element instanceof PDictionary) {
             $this->writer->startElement('dict');
@@ -86,7 +86,7 @@ class PlistWriter
             $this->writer->endElement();
         } elseif ($element instanceof PString) {
             $this->writer->startElement('string');
-            $this->writer->text($element->getValue());
+            $this->writer->text((string) $element->getValue());
             $this->writer->endElement();
         } else {
             throw new UnknownTypeException('Cannot write unknown element ('.get_class($element).')');
