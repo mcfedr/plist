@@ -16,13 +16,13 @@
         "psr-4": { "Mcfedr\\Plist\\": ["tests/"] }
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=8.0",
         "ext-xml": "*",
         "ext-mbstring": "*"
     },
     "config": {
         "platform": {
-            "php": "5.5.9"
+            "php": "8.0.0"
         }
     },
     "require-dev": {

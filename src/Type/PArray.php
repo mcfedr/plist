@@ -28,17 +28,17 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         }
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->elements[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->elements[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (!$value instanceof PType) {
             throw new InvalidValueException('Value not an instance of PType');
@@ -56,37 +56,37 @@ class PArray implements PRoot, \ArrayAccess, \Countable, \Iterator
         $this->elements[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->elements[$offset]);
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->elements);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return current($this->elements);
     }
 
-    public function next()
+    public function next(): void
     {
         next($this->elements);
     }
 
-    public function key()
+    public function key(): string|int|null
     {
         return key($this->elements);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->elements[key($this->elements)]);
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->elements);
     }
