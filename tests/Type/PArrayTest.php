@@ -2,35 +2,41 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PArrayTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidKeyException;
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PArrayTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PArray();
     }
 
     public function testConstructorValues()
     {
+        $this->expectNotToPerformAssertions();
+
         new PArray([
             new PString(),
         ]);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValues()
     {
+        $this->expectException(InvalidValueException::class);
+
         new PArray([
             'string',
         ]);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidKeyException
-     */
     public function testConstructorInvalidKey()
     {
+        $this->expectException(InvalidKeyException::class);
+
         new PArray([
             'key' => new PString(),
         ]);
@@ -73,26 +79,24 @@ class PArrayTest extends \PHPUnit_Framework_TestCase
         ]);
 
         foreach ($a as $key => $value) {
-            $this->assertInternalType('int', $key);
+            $this->assertIsInt($key);
             $this->assertInstanceOf(PString::class, $value);
         }
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testInsertInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
+
         $a = new PArray();
 
         $a[0] = 'string';
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidKeyException
-     */
     public function testInsertInvalidKey()
     {
+        $this->expectException(InvalidKeyException::class);
+
         $a = new PArray();
 
         $a['key'] = new PString();

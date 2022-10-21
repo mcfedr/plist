@@ -2,23 +2,28 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PRealTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PRealTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
         new PReal();
     }
 
     public function testConstructorValue()
     {
+        $this->expectNotToPerformAssertions();
+
         new PReal(1.0);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidValueException
-     */
     public function testConstructorInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
+
         new PReal('string');
     }
 }

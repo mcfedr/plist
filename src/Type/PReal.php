@@ -34,7 +34,7 @@ class PReal implements PType
      */
     public function setValue($value)
     {
-        if (!is_real($value)) {
+        if (!is_float($value)) {
             throw new InvalidValueException('Value not a real');
         }
         $this->value = $value;

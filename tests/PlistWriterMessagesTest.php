@@ -7,8 +7,9 @@ use Mcfedr\Plist\Type\PDictionary;
 use Mcfedr\Plist\Type\PInteger;
 use Mcfedr\Plist\Type\Plist;
 use Mcfedr\Plist\Type\PString;
+use PHPUnit\Framework\TestCase;
 
-class PlistWriterMessagesTest extends \PHPUnit_Framework_TestCase
+class PlistWriterMessagesTest extends TestCase
 {
     public function testWriteDict()
     {

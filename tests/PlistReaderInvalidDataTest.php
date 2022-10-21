@@ -2,13 +2,18 @@
 
 namespace Mcfedr\Plist;
 
-class PlistReaderInvalidDataTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidDateStringException;
+use Mcfedr\Plist\Exception\InvalidStructureException;
+use Mcfedr\Plist\Exception\MissingKeyException;
+use Mcfedr\Plist\Exception\UnknownElementException;
+use PHPUnit\Framework\TestCase;
+
+class PlistReaderInvalidDataTest extends TestCase
 {
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
-     */
     public function testInvalidStructure()
     {
+        $this->expectException(InvalidStructureException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -23,11 +28,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
-     */
     public function testInvalidRoot()
     {
+        $this->expectException(InvalidStructureException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -41,11 +45,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
-     */
     public function testInvalidStructureOnlyKey()
     {
+        $this->expectException(InvalidStructureException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -59,11 +62,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\UnknownElementException
-     */
     public function testInvalidElement()
     {
+        $this->expectException(UnknownElementException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -77,11 +79,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\MissingKeyException
-     */
     public function testMissingKey()
     {
+        $this->expectException(MissingKeyException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -97,11 +98,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidDateStringException
-     */
     public function testInvalidDate()
     {
+        $this->expectException(InvalidDateStringException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -118,11 +118,10 @@ XML;
         $reader->read($message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\InvalidStructureException
-     */
     public function testIncorrectNesting()
     {
+        $this->expectException(InvalidStructureException::class);
+
         $message = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

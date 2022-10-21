@@ -2,6 +2,7 @@
 
 namespace Mcfedr\Plist;
 
+use Mcfedr\Plist\Exception\UnknownTypeException;
 use Mcfedr\Plist\Type\PArray;
 use Mcfedr\Plist\Type\PBoolean;
 use Mcfedr\Plist\Type\PData;
@@ -12,8 +13,9 @@ use Mcfedr\Plist\Type\Plist;
 use Mcfedr\Plist\Type\PReal;
 use Mcfedr\Plist\Type\PString;
 use Mcfedr\Plist\Type\PType;
+use PHPUnit\Framework\TestCase;
 
-class PlistWriterTest extends \PHPUnit_Framework_TestCase
+class PlistWriterTest extends TestCase
 {
     public function testWriteArray()
     {
@@ -230,11 +232,10 @@ XML;
         $this->assertEquals($expected, $message);
     }
 
-    /**
-     * @expectedException \Mcfedr\Plist\Exception\UnknownTypeException
-     */
     public function testWriteUnknown()
     {
+        $this->expectException(UnknownTypeException::class);
+
         $newElement = $this->getMockBuilder(PType::class)->getMock();
 
         $writer = new PlistWriter();

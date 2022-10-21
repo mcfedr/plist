@@ -2,15 +2,22 @@
 
 namespace Mcfedr\Plist\Type;
 
-class PIntegerTest extends \PHPUnit_Framework_TestCase
+use Mcfedr\Plist\Exception\InvalidValueException;
+use PHPUnit\Framework\TestCase;
+
+class PIntegerTest extends TestCase
 {
     public function testConstructor()
     {
+        $this->expectNotToPerformAssertions();
+
         new PInteger();
     }
 
     public function testConstructorValue()
     {
+        $this->expectNotToPerformAssertions();
+
         new PInteger(1);
     }
 
@@ -19,6 +26,8 @@ class PIntegerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorInvalidValue()
     {
+        $this->expectException(InvalidValueException::class);
+
         new PInteger('string');
     }
 }

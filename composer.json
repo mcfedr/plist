@@ -26,9 +26,9 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "friendsofphp/php-cs-fixer": "^2.2",
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^v3.12",
         "rodneyrehm/plist": "^2.0",
-        "phpbench/phpbench": "^0.12.2"
+        "phpbench/phpbench": "^1.2"
     }
 }
