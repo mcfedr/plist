@@ -12,7 +12,7 @@ class Plist
     /**
      * @param PRoot $value
      */
-    public function __construct(PRoot $value = null)
+    public function __construct(?PRoot $value = null)
     {
         $this->value = $value;
     }
@@ -28,7 +28,7 @@ class Plist
     /**
      * @param PRoot $value
      */
-    public function setValue(PRoot $value = null)
+    public function setValue(?PRoot $value = null)
     {
         $this->value = $value;
     }

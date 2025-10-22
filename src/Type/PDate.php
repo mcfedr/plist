@@ -14,7 +14,7 @@ class PDate implements PType
     /**
      * @param \DateTime $value
      */
-    public function __construct(\DateTime $value = null)
+    public function __construct(?\DateTime $value = null)
     {
         $this->value = $value;
     }
@@ -27,7 +27,7 @@ class PDate implements PType
         return $this->value;
     }
 
-    public function setValue(\DateTime $value)
+    public function setValue(?\DateTime $value)
     {
         $this->value = $value;
     }
