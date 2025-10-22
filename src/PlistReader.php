@@ -263,7 +263,7 @@ class PlistReader
      *
      * @return string
      */
-    public static function sanitizeForXml($input)
+    public static function sanitizeForXml(?string $input = ''): string
     {
         // Remove invalid utf8 characters
         $oldSetting = mb_substitute_character();
